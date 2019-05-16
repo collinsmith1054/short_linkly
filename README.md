@@ -2,7 +2,7 @@
 
 ## Welcome to Short Linkly a link shortening service!
 
-## Built with Rails 5.2.3 and Ruby 2.5.1
+Built with Rails 5.2.3 and Ruby 2.5.1
 
 ## Setup
 
