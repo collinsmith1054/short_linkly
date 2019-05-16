@@ -1,24 +1,38 @@
-# README
+# Short Linkly
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Welcome to Short Linkly a link shortening service!
 
-Things you may want to cover:
+## Built with Rails 5.2.3 and Ruby 2.5.1
 
-* Ruby version
+## Setup
 
-* System dependencies
+```shell
+bundle install
+```
 
-* Configuration
+### postgresql
 
-* Database creation
+If you have not already install postgresql
 
-* Database initialization
+```shell
+brew install postgresql
+```
 
-* How to run the test suite
+and start postgresql
 
-* Services (job queues, cache servers, search engines, etc.)
+```shell
+brew services start postgresql
+```
 
-* Deployment instructions
+### Create Databse
 
-* ...
+```shell
+rails db:create db:migrate
+```
+
+### Start Rails Server
+
+```shell
+rails s
+```
+
