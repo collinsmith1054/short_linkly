@@ -13,6 +13,15 @@ RSpec.describe ShortLink, type: :model do
     end
   end
 
+  describe 'find_by_encoded_id' do
+    let(:short_link) { create(:short_link) }
+    subject { described_class.find_by_encoded_id(short_link.encoded_id) }
+
+    it 'returns the matching short_link' do
+      is_expected.to eq(short_link)
+    end
+  end
+
   describe 'encoded_id' do
     let(:short_link) { create(:short_link) }
     subject { short_link.encoded_id }

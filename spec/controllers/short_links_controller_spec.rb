@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe ShortLinksController, type: :controller do
+  describe 'GET #show' do
+    let!(:short_link) { create(:short_link) }
+    let(:request) { get :show, params: { id: short_link.encoded_id } }
+
+    it 'responds with a 301' do
+      request
+      expect(response).to have_http_status(:moved_permanently)
+    end
+
+    it 'redirects to the long_url' do
+      expect(request).to redirect_to(short_link.long_link)
+    end
+
+    context 'with a missing short_link' do
+      before(:each) do
+        allow(ShortLink).to receive(:find_by_encoded_id).and_return(nil)
+      end
+
+      it 'returns a 404' do
+        request
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'POST #create' do
     let(:params) { {} }
     let(:request) { post :create, params: params }
