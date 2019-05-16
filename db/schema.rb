@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_05_16_022749) do
     t.string "long_link", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["long_link"], name: "index_short_links_on_long_link", unique: true
   end
 
 end

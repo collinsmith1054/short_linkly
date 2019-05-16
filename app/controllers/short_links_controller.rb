@@ -6,9 +6,9 @@ class ShortLinksController < ApplicationController
   end
 
   def create
-    short_link = ShortLink.new(short_link_params)
+    short_link = ShortLink.find_or_initialize_by(short_link_params)
 
-    if short_link.save
+    if short_link.persisted? || short_link.save
       render json: { long_link: short_link.long_link, short_link: shortened_link(short_link) }, status: :created
     else
       render json: short_link.errors, status: :unprocessable_entity

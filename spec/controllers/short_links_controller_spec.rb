@@ -45,8 +45,29 @@ RSpec.describe ShortLinksController, type: :controller do
 
       it 'returns payload' do
         request
-        expect(JSON.parse(response.body)).
-          to eq('long_link' => long_link, 'short_link' => "http://test.host/#{ShortLink.last.encoded_id}")
+        expect(JSON.parse(response.body))
+          .to eq('long_link' => long_link, 'short_link' => "http://test.host/#{ShortLink.last.encoded_id}")
+      end
+    end
+
+    context 'with duplicate long_link' do
+      let(:long_link) { 'https://www.google.com' }
+      let!(:short_link) { create(:short_link, long_link: long_link) }
+      let(:params) { { long_link: long_link } }
+
+      it 'returns a 201' do
+        request
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'does not create a short_link' do
+        expect { request }.to change(ShortLink, :count).by(0)
+      end
+
+      it 'returns payload' do
+        request
+        expect(JSON.parse(response.body))
+          .to eq('long_link' => long_link, 'short_link' => "http://test.host/#{short_link.encoded_id}")
       end
     end
 

@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :short_link do
-    long_link { 'https://www.google.com' }
+    sequence :long_link do |n|
+      "https://www.google.com/#{n}"
+    end
   end
 end
