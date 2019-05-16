@@ -1,6 +1,7 @@
 class ShortLink < ApplicationRecord
-  validates :long_link, presence: true, uniqueness: true
-  validates :long_link, format: URI.regexp(%w(http https))
+  validates_uniqueness_of :long_link, scope: :user_id
+  validates :long_link, presence: true, format: URI.regexp(%w(http https))
+  validates :user_id, presence: true
 
   before_save :downcase_long_link
 

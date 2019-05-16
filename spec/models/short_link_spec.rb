@@ -6,6 +6,24 @@ RSpec.describe ShortLink, type: :model do
   end
 
   it { is_expected.to validate_presence_of(:long_link) }
+  it { is_expected.to validate_presence_of(:user_id) }
+
+  context 'long_link is not unique' do
+    let(:long_link) { 'https://www.google.com' }
+    let!(:short_link) { create(:short_link, long_link: long_link, user_id: 1) }
+
+    context 'user_id is same' do
+      subject { build(:short_link, long_link: long_link, user_id: 1) }
+
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'user_id is different' do
+      subject { build(:short_link, long_link: long_link, user_id: 2) }
+
+      it { is_expected.to be_valid }
+    end
+  end
 
   context 'when long_link is an invalid url' do
     it 'is invalid' do

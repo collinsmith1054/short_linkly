@@ -23,7 +23,7 @@ class ShortLinksController < ApplicationController
   end
 
   def short_link_params
-    params.permit(:long_link)
+    params.permit(:long_link, :user_id)
   end
 
   def shortened_link(short_link)

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ShortLinksController, type: :controller do
   describe 'GET #show' do
     let!(:short_link) { create(:short_link) }
-    let(:request) { get :show, params: { id: short_link.encoded_id } }
+    let(:request) { get :show, params: { id: short_link.encoded_id, user_id: 1 } }
 
     it 'responds with a 301' do
       request
@@ -32,7 +32,7 @@ RSpec.describe ShortLinksController, type: :controller do
 
     context 'with valid params' do
       let(:long_link) { 'https://www.google.com' }
-      let(:params) { { long_link: long_link } }
+      let(:params) { { long_link: long_link, user_id: 1 } }
 
       it 'returns a 201' do
         request
@@ -52,8 +52,8 @@ RSpec.describe ShortLinksController, type: :controller do
 
     context 'with duplicate long_link' do
       let(:long_link) { 'https://www.google.com' }
-      let!(:short_link) { create(:short_link, long_link: long_link) }
-      let(:params) { { long_link: long_link } }
+      let!(:short_link) { create(:short_link, long_link: long_link, user_id: 1) }
+      let(:params) { { long_link: long_link, user_id: 1 } }
 
       it 'returns a 201' do
         request
@@ -73,7 +73,7 @@ RSpec.describe ShortLinksController, type: :controller do
 
     context 'with invalid params' do
       context 'missing long_link' do
-        let(:params) { { long_link: nil } }
+        let(:params) { { long_link: nil, user_id: 1 } }
 
         it 'returns a 422' do
           request
@@ -87,7 +87,7 @@ RSpec.describe ShortLinksController, type: :controller do
       end
 
       context 'invalid url' do
-        let(:params) { { long_link: 'invalid' } }
+        let(:params) { { long_link: 'invalid', user_id: 1 } }
 
         it 'returns a 422' do
           request
